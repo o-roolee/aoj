@@ -3,21 +3,28 @@ using namespace std;
 
 
 int main() {
-  string x;
-  getline(cin, x);
-  stringstream ss(x);
+  int n;
+  cin >> n;
+  vector<int> S(n+1);
+  for (int i = 0; i < n; i++) {cin >> S.at(i); }
 
-  stack<int> stk;
+  int q;
+  cin >> q;
+  vector<int> T(q);
+  for (int i = 0; i < q; i++) {cin >> T.at(i); }
 
+  int ans = 0;
+  S.at(n) = -1;
 
-  while (getline(ss, x, ' ')) {
-    if (x == "+" || x == "-" || x == "*" || x == "/") {
-      stk = operate(stk, x);
-    } else {
-      stk.push(atoi(x.c_str()));
-    }
+  for (int i = 0; i < q; i++) {
+    int j = 0;
+    int key = T.at(i);
+    S.at(n) = key;
+
+    while (S.at(j) != key) j++;
+    if (j != n) ans++;
   }
 
-  cout << stk.top() << endl;
+  cout << ans << endl;
   return 0;
 }
