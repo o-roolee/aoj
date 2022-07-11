@@ -2,53 +2,34 @@
 using namespace std;
 
 
-struct Process {
-  string name;
-  int time;
-};
-
 int main() {
-  int N;
-  int q;
-  queue<struct Process> que;
-  queue<struct Process> ans;
+  int n, q;
+  cin >> n >> q;
 
+  queue<pair<string, int> > Q;
+  int time;
+  string name;
 
-  cin >> N >> q;
-
-  for (int i = 0; i < N; i++) {
-    struct Process p;
-    cin >> p.name >> p.time;
-    que.push(p);
+  for (int i = 0; i < n; i++) {
+    cin >> name >> time;
+    Q.push(make_pair(name, time));
   }
 
-  int elapsed = 0; // 経過時間
+  int elaps = 0; // 経過時間
 
-  while (!que.empty()) {
-    struct Process p = que.front();
-    que.pop();
+  while (!Q.empty()) {
+    pair<string, int> u = Q.front();
+    Q.pop();
 
-    if (p.time > q) {
-      elapsed += q;
-      p.time -= q;
-      que.push(p);
+    int a = min(u.second, q);
+    u.second -= a;
+    elaps += a;
+
+    if (u.second > 0) {
+      Q.push(u);
     } else {
-      elapsed += p.time;
-
-      struct Process ans_p;
-      ans_p.name = p.name;
-      ans_p.time = elapsed;
-      ans.push(ans_p);
+      cout << u.first << " " << elaps << endl;
     }
-
   }
-
-
-  while (!ans.empty()) {
-    struct Process ans_p = ans.front();
-    ans.pop();
-    cout << ans_p.name << " " << ans_p.time << endl;
-  }
-
   return 0;
 }
